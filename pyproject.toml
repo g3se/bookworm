@@ -1,0 +1,22 @@
+[project]
+name = "bookworm"
+version = "0.1.0"
+description = "bookstore website for CS 3773-002, Spring 2026"
+authors = [
+    {name = "g3se"}
+]
+license = "CC0-1.0"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "django (>=6.0.2,<6.1.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+package-mode = false
