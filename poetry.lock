@@ -145,6 +145,21 @@ files = [
 ]
 
 [[package]]
+name = "python-dotenv"
+version = "1.2.1"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "python_dotenv-1.2.1-py3-none-any.whl", hash = "sha256:b81ee9561e9ca4004139c6cbba3a238c32b03e4894671e181b671e8cb8425d61"},
+    {file = "python_dotenv-1.2.1.tar.gz", hash = "sha256:42667e897e16ab0d66954af0e60a9caa94f0fd4ecf3aaf6d2d260eec1aa36ad6"},
+]
+
+[package.extras]
+cli = ["click (>=5.0)"]
+
+[[package]]
 name = "qrcode"
 version = "7.4.2"
 description = "QR Code image generator"
@@ -212,4 +227,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14"
-content-hash = "e060b70cf600b68ef326adb371b45f858e54fbe6be8659cb6cee5e70f0aa4ea1"
+content-hash = "19e7997febc1ce240504a2490c9d4df4c9dedb870a8e7e1f80831b4b7fe46999"
