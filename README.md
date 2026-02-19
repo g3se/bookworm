@@ -18,6 +18,8 @@ Install the poetry shell plugin
 pipx inject poetry poetry-plugin-shell
 ```
 
+## Clone the project
+
 Clone <https://github.com/g3se/bookworm.git>.
 
 I do this through SSH to authenticate myself with GitHub. I know how to set this
