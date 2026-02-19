@@ -38,6 +38,11 @@ Alternatives:
 poetry install
 ```
 
+**NOTE:** If the `poetry.lock` file changes, you will probably need to run this
+command again in order to synchronize your dependencies with the project's
+requirements.
+Just running it occasionally should be fine.
+
 ## Do this each time you want to test the website / use manage.py / run Python
 
 Activate the environment in a subshell
