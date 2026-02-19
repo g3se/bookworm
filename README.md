@@ -20,14 +20,15 @@ pipx inject poetry poetry-plugin-shell
 
 ## Clone the project
 
-Clone <https://github.com/g3se/bookworm.git>.
+Clone <https://github.com/g3se/bookworm>.
 
-I do this through SSH to authenticate myself with GitHub. I know how to set this
-up on macOS and Linux, but not on Windows.
+I recommend to clone the repository through SSH to authenticate with GitHub, using a URL similar to: `ssh://git@github.com/g3se/bookworm.git`.
 
-Alternatives:
+There are alternative ways to clone that let you avoid needing to interact with SSH
+directly:
+- VS Code (built-in GitHub integration):
+  <https://code.visualstudio.com/download>
 - GitHub Desktop: <https://github.com/apps/desktop>
-- VS Code: <https://code.visualstudio.com/download>
 
 ## Install the project's dependencies
 
