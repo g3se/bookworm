@@ -3,6 +3,20 @@ bookstore website for CS 3773-002, Spring 2026
 
 # Setup guide
 
+## Install Python
+
+Neither pipx nor Poetry provides Python for you.
+You should install it independently if you do not already have a version of
+Python 3.14.0 or later installed: <https://realpython.com/installing-python/>.
+
+Make sure that you get Python 3.14.0 or later.
+
+Verify that it's installed by running
+```sh
+python3.14 --version
+```
+which should print something like `Python 3.14.x`.
+
 ## Install Poetry
 
 Get pipx: <https://pipx.pypa.io/stable/installation/>
