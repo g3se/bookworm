@@ -1,13 +1,10 @@
 from django.db import models
 
-from catalog.models import BookDetails, StockBook
-from accounts.models import Customer
-
 
 class Cart(models.Model):
     """Current cart of a Customer before the order has been placed."""
 
-    customer = models.OneToOneField(Customer, on_delete=models.CASCADE)
+    customer = models.OneToOneField("accounts.Customer", on_delete=models.CASCADE)
 
 
 class CartItem(models.Model):
@@ -17,7 +14,7 @@ class CartItem(models.Model):
     #       contiguous indices to make it easier to implement the ability to
     #       delete items in a cart.
     index = models.PositiveIntegerField()
-    book = models.ForeignKey(StockBook, on_delete=models.CASCADE)
+    book = models.ForeignKey("catalog.StockBook", on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 
 
@@ -29,7 +26,7 @@ class Order(models.Model):
     resist change/deletion from other parts of the software's model.
     """
 
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
+    customer = models.ForeignKey("accounts.Customer", on_delete=models.SET_NULL, null=True)
     # auto_now_add automatically sets created_at to the datetime at the
     # creation of the Order
     created_at = models.DateTimeField(auto_now_add=True)
@@ -40,7 +37,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    book = models.ForeignKey(BookDetails, on_delete=models.SET_NULL, null=True)
+    book = models.ForeignKey("catalog.BookDetails", on_delete=models.SET_NULL, null=True)
     quantity = models.PositiveIntegerField()
     # NOTE: price_at_purchase should have the same precision as price of
     #       StockBook.

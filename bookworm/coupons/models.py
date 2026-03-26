@@ -2,8 +2,6 @@ from django.db import models
 from django.db.models import Q
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-from accounts.models import Customer
-
 
 class Coupon(models.Model):
     code = models.CharField(max_length=31, unique=True)
@@ -14,7 +12,7 @@ class Coupon(models.Model):
             MaxValueValidator(100),
         ]
     )
-    used_by = models.ManyToManyField(Customer, blank=True)
+    used_by = models.ManyToManyField("accounts.Customer", blank=True)
 
     class Meta:
         constraints = [
