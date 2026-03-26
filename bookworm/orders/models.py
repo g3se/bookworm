@@ -4,7 +4,9 @@ from django.db import models
 class Cart(models.Model):
     """Current cart of a Customer before the order has been placed."""
 
-    customer = models.OneToOneField("accounts.Customer", on_delete=models.CASCADE)
+    customer = models.OneToOneField(
+        "accounts.Customer", on_delete=models.CASCADE
+    )
 
 
 class CartItem(models.Model):
@@ -26,7 +28,9 @@ class Order(models.Model):
     resist change/deletion from other parts of the software's model.
     """
 
-    customer = models.ForeignKey("accounts.Customer", on_delete=models.SET_NULL, null=True)
+    customer = models.ForeignKey(
+        "accounts.Customer", on_delete=models.SET_NULL, null=True
+    )
     # auto_now_add automatically sets created_at to the datetime at the
     # creation of the Order
     created_at = models.DateTimeField(auto_now_add=True)
@@ -37,7 +41,9 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    book = models.ForeignKey("catalog.BookDetails", on_delete=models.SET_NULL, null=True)
+    book = models.ForeignKey(
+        "catalog.BookDetails", on_delete=models.SET_NULL, null=True
+    )
     quantity = models.PositiveIntegerField()
     # NOTE: price_at_purchase should have the same precision as price of
     #       StockBook.
