@@ -7,6 +7,12 @@
     {% for book in books %}
         <div class="col-md-4">
             <div class="card mb-3 p-3">
+                <img
+                    src="{{ book.details.cover_url }}"
+                    alt="{{ book.details.title }}"
+                    class="img-fluid mb-2"
+                    style="height: 200px; object-fit: contain"
+                >
                 <h5>{{ book.details.title }}</h5>
                 <p>{{ book.details.author }}</p>
                 <p>${{ book.price }}</p>

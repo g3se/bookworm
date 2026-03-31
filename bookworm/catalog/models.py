@@ -1,5 +1,7 @@
 from django.db import models
 
+from bookworm.settings import MEDIA_URL
+
 
 class BookDetails(models.Model):
     """Book details, independent of stock.
@@ -10,9 +12,19 @@ class BookDetails(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     description = models.CharField(max_length=2047)
+    genre = models.CharField(max_length=127)
+    cover_img = models.ImageField(
+        upload_to="book_covers/", blank=True, null=True
+    )
 
     def __str__(self):
         return self.title
+
+    @property
+    def cover_url(self):
+        if self.cover_img:
+            return self.cover_img.url
+        return MEDIA_URL + "placeholder.jpg"
 
     class Meta:
         verbose_name = "Book details"
