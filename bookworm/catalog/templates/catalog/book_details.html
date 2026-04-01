@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ book.title }}</h1>
+
+<p><strong>Title:</strong> {{ book.details.title }}</p>
+<p><strong>Author:</strong> {{ book.details.author }}</p>
+<p><strong>Price:</strong> ${{ book.price }}</p>
+<p><strong>Genre:</strong> {{ book.details.genre }}</p>
+<p><strong>Stock:</strong> {{ book.stock }}</p>
+<p><strong>Description:</strong> {{ book.details.description_html }}</p>
+<img
+    src="{{ book.details.cover_url }}"
+    alt="{{ book.details.title }}"
+    class="img-fluid mb-2"
+    style="height: 200px; object-fit: contain;"
+>
+
+<a href="/books/" class="btn btn-secondary">Back</a>
+{% endblock %}
