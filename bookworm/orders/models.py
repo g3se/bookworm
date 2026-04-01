@@ -41,7 +41,9 @@ class Order(models.Model):
     is_fulfilled = models.BooleanField(default=False)
 
     def __str__(self):
-        customer_str = str(self.customer) if self.customer else "[Deleted Customer]"
+        customer_str = (
+            str(self.customer) if self.customer else "[Deleted Customer]"
+        )
         return f"{customer_str} ({self.created_at})"
 
 
@@ -57,6 +59,10 @@ class OrderItem(models.Model):
     price_at_purchase = models.DecimalField(max_digits=6, decimal_places=2)
 
     def __str__(self):
-        customer_str = str(self.order.customer) if self.order.customer else "[Deleted Customer]"
+        customer_str = (
+            str(self.order.customer)
+            if self.order.customer
+            else "[Deleted Customer]"
+        )
         book_str = str(self.book) if self.book else "[Deleted Book]"
         return f"{customer_str}: (x{self.quantity}) {book_str}"
