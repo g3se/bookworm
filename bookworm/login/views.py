@@ -1,26 +1,90 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.views import View
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .forms import EditProfileForm, ChangePasswordForm
 
+User = get_user_model()
 
 # Create your views here.
-#test for connection of front and back end
-
 def login_view(request):
-    if request.method == 'POST':
-        # Handle login logic here
-        return HttpResponse("Login successful!")
-    else:
-        return render(request, 'login/login.html')
+    if request.user.is_authenticated:
+        return redirect('home')  # Redirect to home if already logged in
     
-def register_view(request):
     if request.method == 'POST':
-        # Handle registration logic here
-        return HttpResponse("Registration successful!")
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')  # Redirect to home after successful login
+        else:
+            messages.error(request, "Invalid username or password.")
     else:
-        return render(request, 'login/register.html')
+        form = AuthenticationForm()
     
-def logout_view(request):
-    # Handle logout logic here
-    return HttpResponse("Logout successful!")
+    return render(request, 'registration/login.html', {'form': form})
 
+def register_view(request):
+    if request.user.is_authenticated:
+        return redirect('home')  # Redirect to home if already logged in
+    
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save() 
+            login(request, user) #log then user in after registration
+            return redirect('home')
+        else:
+            messages.error(request, "Registration failed. Please correct the errors below.")
+    else:
+        form = UserCreationForm()
+    
+    return render(request, 'registration/register.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')  # Redirect to home after logout
+
+@login_required
+def profile_view(request):
+    return render(request, 'registration/profile.html', {'user': request.user})
+
+@login_required
+def edit_profile_view(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully.")
+            return redirect('profile')
+        else:
+            messages.error(request, "Failed to update profile. Please correct the errors below.")
+    else:
+        form = EditProfileForm(instance=request.user)
+    
+    return render(request, 'registration/edit_profile.html', {'form': form})
+
+@login_required
+def change_password_view(request):
+    form = ChangePasswordForm(request.POST)
+    if form.is_valid():
+        current = form.cleaned_data['current_password']
+        new = form.cleaned_data['new_password']
+        confirm = form.cleaned_data['confirm_password']
+        
+        if not request.user.check_password(current):
+            messages.error(request, "Current password is incorrect.")
+        elif new != confirm:
+            messages.error(request, "New passwords do not match.")
+        else:
+            request.user.set_password(new)
+            request.user.save()
+            update_session_auth_hash(request, request.user)  # Keep the user logged in after password change
+            messages.success(request, "Password changed successfully.")
+            return redirect('profile')
+    else:
+        form = ChangePasswordForm()
+        
+    return render(request, 'registration/change_password.html', {'form': form})
