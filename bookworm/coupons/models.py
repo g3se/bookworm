@@ -14,6 +14,9 @@ class Coupon(models.Model):
     )
     used_by = models.ManyToManyField("accounts.Customer", blank=True)
 
+    def __str__(self):
+        return str(self.code)
+
     class Meta:
         constraints = [
             models.CheckConstraint(

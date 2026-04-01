@@ -19,7 +19,7 @@ class BookDetails(models.Model):
     )
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
     @property
     def cover_url(self):

@@ -8,6 +8,9 @@ class Cart(models.Model):
         "accounts.Customer", on_delete=models.CASCADE
     )
 
+    def __str__(self):
+        return str(self.customer)
+
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
@@ -18,6 +21,9 @@ class CartItem(models.Model):
     index = models.PositiveIntegerField()
     book = models.ForeignKey("catalog.StockBook", on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.cart.customer}: (x{self.quantity}) {self.book.details}"
 
 
 class Order(models.Model):
@@ -38,6 +44,10 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=8, decimal_places=2)
     is_fulfilled = models.BooleanField(default=False)
 
+    def __str__(self):
+        customer_str = str(self.order.customer) if self.order.customer else "[Deleted Customer]"
+        return f"{customer_str} ({self.created_at})"
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -49,3 +59,8 @@ class OrderItem(models.Model):
     #       StockBook.
     # TODO: Should this be `price_of_book * quantity` or just `price_of_book`?
     price_at_purchase = models.DecimalField(max_digits=6, decimal_places=2)
+
+    def __str__(self):
+        customer_str = str(self.order.customer) if self.order.customer else "[Deleted Customer]"
+        book_str = str(self.book) if self.book else "[Deleted Book]"
+        return f"{customer_str}: (x{self.quantity}) {book_str}"
