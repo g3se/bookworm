@@ -16,5 +16,5 @@
     style="height: 200px; object-fit: contain;"
 >
 
-<a href="/books/" class="btn btn-secondary">Back</a>
+<a href="{{ request.GET.next|default:'/books/' }}" class="btn btn-secondary">Back</a>
 {% endblock %}
