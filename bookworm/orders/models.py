@@ -41,7 +41,7 @@ class Order(models.Model):
     is_fulfilled = models.BooleanField(default=False)
 
     def __str__(self):
-        customer_str = str(self.order.customer) if self.order.customer else "[Deleted Customer]"
+        customer_str = str(self.customer) if self.customer else "[Deleted Customer]"
         return f"{customer_str} ({self.created_at})"
 
 
