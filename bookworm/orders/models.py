@@ -14,11 +14,7 @@ class Cart(models.Model):
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
-    # index as an element of the cart's "list"
-    # NOTE: It may be useful to not assume that all CartItems in a Cart have
-    #       contiguous indices to make it easier to implement the ability to
-    #       delete items in a cart.
-    index = models.PositiveIntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
     book = models.ForeignKey("catalog.StockBook", on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 
