@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.html import mark_safe
 
 from bookworm.settings import MEDIA_URL
 
@@ -25,6 +26,10 @@ class BookDetails(models.Model):
         if self.cover_img:
             return self.cover_img.url
         return MEDIA_URL + "placeholder.jpg"
+
+    @property
+    def description_html(self):
+        return mark_safe(self.description)
 
     class Meta:
         verbose_name = "Book details"
