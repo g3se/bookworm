@@ -39,6 +39,7 @@ class Order(models.Model):
     # NOTE: total_price is *probably* large enough.
     total_price = models.DecimalField(max_digits=8, decimal_places=2)
     is_fulfilled = models.BooleanField(default=False)
+    customer_address = models.CharField(max_length=511)
 
     def __str__(self):
         customer_str = str(self.customer) if self.customer else "[Deleted Customer]"
