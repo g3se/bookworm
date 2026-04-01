@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Search Books</h2>
+
+<form method="GET" action="{% url 'search_books' %}">
+    <input type="text" name="q" placeholder="Search by title or author" value="{{ query }}">
+    <button type="submit">Search</button>
+</form>
+
+<hr>
+    {% if results %}
+        <div class="row">
+            {% for book in results %}
+                <div class="col-md-4">
+                    <div class="card mb-3 p-3">
+                        <img
+                            src="{{ book.details.cover_url }}"
+                            alt="{{ book.details.title }}"
+                            class="img-fluid mb-2"
+                            style="height: 200px; object-fit: contain"
+                        >
+                        <h5>{{ book.details.title }}</h5>
+                        <p>{{ book.details.author }}</p>
+                        <p>${{ book.price }}</p>
+
+                        <a href="/books/{{ book.id }}/" class="btn btn-primary">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No books found matching your query.</p>
+    {% endif %}
+{% endblock %}

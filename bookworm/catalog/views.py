@@ -1,6 +1,20 @@
 from django.shortcuts import render, get_object_or_404
-from .models import StockBook
+from django.db.models import Q
+from .models import StockBook, BookDetails
 
+def search_books(request):
+    query = request.GET.get("q", "").strip()
+    results = []
+
+    if query:
+        results = BookDetails.objects.filter(
+            Q(title__icontains=query) |
+            Q(author__icontains=query) |
+            Q(description__icontains=query) |
+            Q(genre__icontains=query)
+        )
+
+    return render(request, "catalog/search_results.html", {"results": results, "query": query})
 
 def book_list(request):
     books = StockBook.objects.all()
