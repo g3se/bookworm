@@ -11,9 +11,9 @@ def book_list(request):
 
     if query:
         books = books.filter(
-            Q(details__title__icontains=query) |
-            Q(details__author__icontains=query) |
-            Q(details__genre__icontains=query)
+            Q(details__title__icontains=query)
+            | Q(details__author__icontains=query)
+            | Q(details__genre__icontains=query)
         )
 
     if sort == "price_asc":
