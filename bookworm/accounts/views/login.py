@@ -14,7 +14,9 @@ User = get_user_model()
 # Create your views here.
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect("book_list")  # Redirect to books if already logged in
+        return redirect(
+            "catalog:book_list"
+        )  # Redirect to books if already logged in
 
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
@@ -22,7 +24,7 @@ def login_view(request):
             user = form.get_user()
             login(request, user)
             return redirect(
-                "book_list"
+                "catalog:book_list"
             )  # Redirect to books after successful login
         else:
             messages.error(request, "Invalid username or password.")
@@ -34,14 +36,16 @@ def login_view(request):
 
 def register_view(request):
     if request.user.is_authenticated:
-        return redirect("book_list")  # Redirect to books if already logged in
+        return redirect(
+            "catalog:book_list"
+        )  # Redirect to books if already logged in
 
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)  # log then user in after registration
-            return redirect("book_list")
+            return redirect("catalog:book_list")
         else:
             messages.error(
                 request, "Registration failed. Please correct the errors below."
@@ -54,7 +58,7 @@ def register_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect("book_list")  # Redirect to books after logout
+    return redirect("catalog:book_list")  # Redirect to books after logout
 
 
 # FIXME profile HTMLs and URLs are missing
