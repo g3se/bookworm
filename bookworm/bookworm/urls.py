@@ -24,7 +24,7 @@ from . import settings
 
 
 urlpatterns = [
-    path("", lambda request: redirect("book_list"), name="root"),
+    path("", lambda request: redirect("catalog:book_list"), name="root"),
     path("admin/", admin.site.urls),
     path("", include("accounts.urls")),
     path("books/", include("catalog.urls")),
