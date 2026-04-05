@@ -1,27 +1,65 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Books</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Books</h1>
 
-<div class="row">
-    {% for book in books %}
-        <div class="col-md-4">
-            <div class="card mb-3 p-3">
-                <img
-                    src="{{ book.details.cover_url }}"
-                    alt="{{ book.details.title }}"
-                    class="img-fluid mb-2"
-                    style="height: 200px; object-fit: contain"
-                >
-                <h5>{{ book.details.title }}</h5>
-                <p>{{ book.details.author }}</p>
-                <p>${{ book.price }}</p>
-
-                <a href="/books/{{ book.id }}/" class="btn btn-primary">
-                    View Details
-                </a>
-            </div>
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-8">
+            <input
+                type="text"
+                name="q"
+                class="form-control"
+                placeholder="Search by title, author, or genre"
+                value="{{ query }}"
+            >
         </div>
-    {% endfor %}
+
+        <div class="col-md-3">
+            <select name="sort" class="form-control">
+                <option value="">Sort By</option>
+                <option value="price_asc" {% if sort == "price_asc" %}selected{% endif %}>Price: Low to High</option>
+                <option value="price_desc" {% if sort == "price_desc" %}selected{% endif %}>Price: High to Low</option>
+                <option value="stock_asc" {% if sort == "stock_asc" %}selected{% endif %}>Availability: Low to High</option>
+                <option value="stock_desc" {% if sort == "stock_desc" %}selected{% endif %}>Availability: High to Low</option>
+            </select>
+        </div>
+
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+        </div>
+    </form>
+
+    {% if query %}
+        <p>Results for: <strong>{{ query }}</strong></p>
+    {% endif %}
+
+    <div class="row">
+        {% for book in books %}
+            <div class="col-md-4">
+                <div class="card mb-3 p-3">
+                    <img
+                        src="{{ book.details.cover_url }}"
+                        alt="{{ book.details.title }}"
+                        class="img-fluid mb-2"
+                        style="height: 200px; object-fit: contain"
+                    >
+                    <h5>{{ book.details.title }}</h5>
+                    <p><strong>Author:</strong> {{ book.details.author }}</p>
+                    <p><strong>Genre:</strong> {{ book.details.genre }}</p>
+                    <p><strong>Price:</strong> ${{ book.price }}</p>
+                    <p><strong>In Stock:</strong> {{ book.stock }}</p>
+
+                    <a href="{% url 'catalog:book_details' book.id %}" class="btn btn-primary">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p>No books matched your search.</p>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
