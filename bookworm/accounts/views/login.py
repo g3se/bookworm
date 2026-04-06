@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.apps import apps
 
 from ..forms import EditProfileForm, ChangePasswordForm, UserCreationForm
 
@@ -120,5 +121,25 @@ def edit_address_view(request):
 
 # TODO implement; maybe move; maybe also add `@login_required` or other
 # decorator if needed.
+@login_required
 def order_history_view(request):
-    raise NotImplementedError()
+    try:
+        Order = apps.get_model("orders", "Order")
+    except LookupError:
+        messages.warning(request, "Order model not available.")
+        orders = Order.objects.none() if False else []  # empty
+    else:
+        try:
+            orders = Order.objects.filter(customer__user=request.user).order_by(
+                "-created_at"
+            )
+        except Exception:
+            try:
+                orders = Order.objects.filter(customer=request.user).order_by(
+                    "-created_at"
+                )
+            except Exception:
+                orders = Order.objects.filter(customer_id=request.user.pk).order_by(
+                    "-created_at"
+                )
+    return render(request, "accounts/order_history.html", {"orders": orders})
