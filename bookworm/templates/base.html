@@ -8,7 +8,108 @@
 
 <nav class="navbar navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="/books/">Bookworm Catalog</a>
+        <!-- Left: brand -->
+        <a class="navbar-brand" href="/books/">📚 Bookworm Catalog</a>
+
+        <!-- Right: auth buttons -->
+        <div class="d-flex align-items-center gap-3">
+
+            {% if user.is_authenticated %}
+
+                <!-- Cart icon -->
+                <a href="#" class="btn btn-outline-light btn-sm">
+                    🛒 Cart
+                </a>
+
+                <!-- Account dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-light btn-sm dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        Hi, {{ user.first_name|default:user.username }} 👋
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end p-3"
+                        style="min-width: 260px;">
+
+                        <!-- Full name -->
+                        <li class="mb-1">
+                            <small class="text-muted">Full Name</small>
+                            <p class="mb-0 fw-semibold">
+                                {% if user.first_name or user.last_name %}
+                                    {{ user.first_name }} {{ user.last_name }}
+                                {% else %}
+                                    Not set
+                                {% endif %}
+                            </p>
+                        </li>
+                        <a class="dropdown-item" href="{% url 'edit_profile' %}">
+                        ✏️ Edit Profile
+                        </a>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- Address — only shows if customer profile exists -->
+                        <li class="mb-1">
+                            <small class="text-muted">Address</small>
+                            <p class="mb-0 fw-semibold">
+                                {% if user.customer.address %}
+                                    {{ user.customer.address }}
+                                {% else %}
+                                    No address on file
+                                {% endif %}
+                            </p>
+                            <a href="{% url 'edit_address' %}" 
+                            class="btn btn-outline-secondary btn-sm mt-1 w-100">
+                          ✏️ Edit Address
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- Orders — only shows if customer profile exists -->
+                        <li class="mb-2">
+                            <small class="text-muted">Orders Placed</small>
+                            <p class="mb-0 fw-semibold">
+                                {% if user.customer.order_set.count %}
+                                    {{ user.customer.order_set.count }} order(s)
+                                {% else %}
+                                    No orders yet
+                                {% endif %}
+                            </p>
+                            <a href="{% url 'order_history' %}"
+                             class="btn btn-outline-secondary btn-sm mt-1 w-100">
+                             📦 View Orders
+                            </a>
+                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+
+                        <!-- Logout button -->
+                        <li>
+                            <a class="btn btn-danger btn-sm w-100"
+                               href="{% url 'logout' %}">
+                                Logout
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            {% else %}
+
+                <!-- Not logged in -->
+                <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">
+                    Login
+                </a>
+                <a href="{% url 'register' %}" class="btn btn-outline-success btn-sm">
+                    Register
+                </a>
+
+            {% endif %}
+
+        </div>
     </div>
 </nav>
 
@@ -16,6 +117,9 @@
     {% block content %}
     {% endblock %}
 </div>
+
+<!-- Bootstrap JS for dropdown -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

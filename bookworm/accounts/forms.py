@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm as DjangoUserCreationForm
+from .models import Customer
 
 User = get_user_model()
 
@@ -21,3 +22,11 @@ class UserCreationForm(DjangoUserCreationForm):
     class Meta:
         model = User
         fields = ("username",)
+        
+class CustomerProfileForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ["address"]
+        widgets = {
+            'address' : forms.TextInput(attrs={'class': 'form-control', 'placeholder': '123 Main St, City, State, ZIP'})
+        }
