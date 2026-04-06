@@ -110,3 +110,15 @@ def change_password_view(request):
         form = ChangePasswordForm()
 
     return render(request, "accounts/change_password.html", {"form": form})
+
+
+# TODO implement; maybe move; maybe also add `@login_required` or other
+# decorator if needed.
+def edit_address_view(request):
+    raise NotImplementedError()
+
+
+# TODO implement; maybe move; maybe also add `@login_required` or other
+# decorator if needed.
+def order_history_view(request):
+    raise NotImplementedError()
