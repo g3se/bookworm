@@ -33,66 +33,88 @@
                     <ul class="dropdown-menu dropdown-menu-end p-3"
                         style="min-width: 260px;">
 
-                        <!-- Full name -->
-                        <li class="mb-1">
-                            <small class="text-muted">Full Name</small>
-                            <p class="mb-0 fw-semibold">
-                                {% if user.first_name or user.last_name %}
-                                    {{ user.first_name }} {{ user.last_name }}
-                                {% else %}
-                                    Not set
-                                {% endif %}
-                            </p>
-                        </li>
-                        <a class="dropdown-item" href="{% url 'edit_profile' %}">
-                        ✏️ Edit Profile
-                        </a>
+                        {% if user.is_staff %}
+                            <!-- ======= ADMIN/STAFF VIEW ======= -->
+                            <li class="mb-2">
+                                <p class="mb-0 fw-semibold text-muted">
+                                    🔧 Admin Account
+                                </p>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="btn btn-danger btn-sm w-100"
+                                   href="{% url 'logout' %}">
+                                    Logout
+                                </a>
+                            </li>
 
-                        <li><hr class="dropdown-divider"></li>
+                        {% else %}
+                            <!-- ======= REGULAR CUSTOMER VIEW ======= -->
 
-                        <!-- Address — only shows if customer profile exists -->
-                        <li class="mb-1">
-                            <small class="text-muted">Address</small>
-                            <p class="mb-0 fw-semibold">
-                                {% if user.customer.address %}
-                                    {{ user.customer.address }}
-                                {% else %}
-                                    No address on file
-                                {% endif %}
-                            </p>
-                            <a href="{% url 'edit_address' %}" 
-                            class="btn btn-outline-secondary btn-sm mt-1 w-100">
-                          ✏️ Edit Address
-                            </a>
-                        </li>
+                            <!-- Full name -->
+                            <li class="mb-1">
+                                <small class="text-muted">Full Name</small>
+                                <p class="mb-0 fw-semibold">
+                                    {% if user.first_name or user.last_name %}
+                                        {{ user.first_name }} {{ user.last_name }}
+                                    {% else %}
+                                        Not set
+                                    {% endif %}
+                                </p>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'edit_profile' %}">
+                                    ✏️ Edit Profile
+                                </a>
+                            </li>
 
-                        <li><hr class="dropdown-divider"></li>
+                            <li><hr class="dropdown-divider"></li>
 
-                        <!-- Orders — only shows if customer profile exists -->
-                        <li class="mb-2">
-                            <small class="text-muted">Orders Placed</small>
-                            <p class="mb-0 fw-semibold">
-                                {% if user.customer.order_set.count %}
-                                    {{ user.customer.order_set.count }} order(s)
-                                {% else %}
-                                    No orders yet
-                                {% endif %}
-                            </p>
-                            <a href="{% url 'order_history' %}"
-                             class="btn btn-outline-secondary btn-sm mt-1 w-100">
-                             📦 View Orders
-                            </a>
-                        </li>
+                            <!-- Address -->
+                            <li class="mb-1">
+                                <small class="text-muted">Address</small>
+                                <p class="mb-0 fw-semibold">
+                                    {% if user.customer.address %}
+                                        {{ user.customer.address }}
+                                    {% else %}
+                                        No address on file
+                                    {% endif %}
+                                </p>
+                                <a href="{% url 'edit_address' %}"
+                                   class="btn btn-outline-secondary btn-sm mt-1 w-100">
+                                    ✏️ Edit Address
+                                </a>
+                            </li>
 
-                        <li><hr class="dropdown-divider"></li>
+                            <li><hr class="dropdown-divider"></li>
 
-                        <!-- Logout button -->
-                        <li>
-                            <a class="btn btn-danger btn-sm w-100"
-                               href="{% url 'logout' %}">
-                                Logout
-                            </a>
-                        </li>
+                            <!-- Orders -->
+                            <li class="mb-2">
+                                <small class="text-muted">Orders Placed</small>
+                                <p class="mb-0 fw-semibold">
+                                    {% if user.customer.order_set.count %}
+                                        {{ user.customer.order_set.count }} order(s)
+                                    {% else %}
+                                        No orders yet
+                                    {% endif %}
+                                </p>
+                                <a href="{% url 'order_history' %}"
+                                   class="btn btn-outline-secondary btn-sm mt-1 w-100">
+                                    📦 View Orders
+                                </a>
+                            </li>
+
+                            <li><hr class="dropdown-divider"></li>
+
+                            <!-- Logout -->
+                            <li>
+                                <a class="btn btn-danger btn-sm w-100"
+                                   href="{% url 'logout' %}">
+                                    Logout
+                                </a>
+                            </li>
+
+                        {% endif %}
 
                     </ul>
                 </div>
