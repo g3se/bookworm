@@ -1,7 +1,7 @@
 from accounts.models import Customer
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 
 from . import services
 from .models import Cart, CartItem
@@ -29,3 +29,9 @@ def view_cart(request):
 
     # Calculate total for all items in the cart
     subtotal = sum(item.book.price * item.quantity for item in cart_items)
+
+
+@login_required
+def view_order_history(request):
+    orders = services.list_order_history(request.user)
+    return render(request, "accounts/order_history.html", {"orders": orders})
