@@ -2,7 +2,7 @@ from accounts.models import Customer
 from catalog.models import StockBook
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import Cart, CartItem, Order
+from .models import Cart, CartItem
 
 
 class NotFoundError(Exception):
@@ -27,19 +27,3 @@ def add_book_to_cart(user, book_id):
     if not item_created:
         cart_item.quantity += 1
         cart_item.save()
-
-
-def list_order_history(user):
-    try:
-        orders = Order.objects.filter(customer__user=user).order_by(
-            "-created_at"
-        )
-    except Exception:
-        try:
-            orders = Order.objects.filter(customer=user).order_by("-created_at")
-        except Exception:
-            orders = Order.objects.filter(customer_id=user.pk).order_by(
-                "-created_at"
-            )
-
-    return orders

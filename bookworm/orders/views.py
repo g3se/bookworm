@@ -1,5 +1,7 @@
-from django.shortcuts import redirect, get_object_or_404
+from accounts.models import Customer
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
 
 from . import services
 from .models import Cart, CartItem
@@ -27,3 +29,14 @@ def view_cart(request):
 
     # Calculate total for all items in the cart
     subtotal = sum(item.book.price * item.quantity for item in cart_items)
+
+
+@login_required
+def view_order_history(request):
+    try:
+        customer = Customer.objects.get(user=request.user)
+        orders = customer.order_set.all().order_by("-created_at")  # ← fixed from customer.orders
+    except Customer.DoesNotExist:
+        orders = []
+
+    return render(request, "accounts/order_history.html", {"orders": orders})
