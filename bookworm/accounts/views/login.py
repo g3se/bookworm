@@ -1,18 +1,21 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, update_session_auth_hash
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.apps import apps
+from django.contrib import messages
+from django.contrib.auth import (
+    get_user_model,
+    login,
+    logout,
+    update_session_auth_hash,
+)
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import redirect, render
 
-from ..forms import EditProfileForm, ChangePasswordForm, UserCreationForm
+from ..forms import ChangePasswordForm, EditProfileForm, UserCreationForm
 
 
 User = get_user_model()
 
 
-# Create your views here.
 def login_view(request):
     if request.user.is_authenticated:
         return redirect(
@@ -45,7 +48,7 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # log then user in after registration
+            login(request, user)  # log the user in after registration
             return redirect("catalog:book_list")
         else:
             messages.error(

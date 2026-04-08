@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from django.db.models import Q
+from django.shortcuts import get_object_or_404, render
+
+from . import services
 from .models import StockBook
 
 
@@ -7,25 +8,7 @@ def book_list(request):
     query = request.GET.get("q", "").strip()
     sort = request.GET.get("sort", "").strip()
 
-    books = StockBook.objects.select_related("details").all()
-
-    if query:
-        books = books.filter(
-            Q(details__title__icontains=query)
-            | Q(details__author__icontains=query)
-            | Q(details__genre__icontains=query)
-        )
-
-    if sort == "price_asc":
-        books = books.order_by("price")
-    elif sort == "price_desc":
-        books = books.order_by("-price")
-    elif sort == "stock_asc":
-        books = books.order_by("stock")
-    elif sort == "stock_desc":
-        books = books.order_by("-stock")
-    else:
-        books = books.order_by("details__title")
+    books = services.filter_and_sort_books(query, sort)
 
     context = {
         "books": books,
