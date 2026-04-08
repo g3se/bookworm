@@ -1,5 +1,7 @@
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.conrtib import messages
+from decimal import Decimal
 
 from .models import Cart, CartItem
 from accounts.models import Customer
@@ -35,4 +37,4 @@ def view_cart(request):
     cart_items = CartItem.objects.filter(cart=cart)
 
     # Calculate total for all items in the cart
-    subtotal = sum(item.book.price * item.quantity for item in cart_items)
+    TAX_RATE = Decimal(0.0824)
