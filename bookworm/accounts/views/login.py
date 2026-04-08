@@ -1,9 +1,5 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, update_session_auth_hash
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+<<<<<<< HEAD
 from django.apps import apps
 
 from accounts.models import Customer
@@ -13,6 +9,17 @@ from accounts.forms import (
     UserCreationForm,
     CustomerProfileForm,
 )
+=======
+from django.contrib.auth import (
+    get_user_model,
+    login,
+    logout,
+)
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import redirect, render
+
+from ..forms import UserCreationForm
+>>>>>>> 6b79e7a2f6ec2f708cfa8317aca5311913fc529f
 
 User = get_user_model()
 
@@ -43,8 +50,12 @@ def register_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
+<<<<<<< HEAD
             Customer.objects.create(user=user)
             login(request, user)
+=======
+            login(request, user)  # log the user in after registration
+>>>>>>> 6b79e7a2f6ec2f708cfa8317aca5311913fc529f
             return redirect("catalog:book_list")
         else:
             messages.error(
@@ -59,6 +70,7 @@ def register_view(request):
 
 def logout_view(request):
     logout(request)
+<<<<<<< HEAD
     return redirect("catalog:book_list")
 
 
@@ -168,3 +180,6 @@ def order_history_view(request):
         orders = []
 
     return render(request, "accounts/order_history.html", {"orders": orders})
+=======
+    return redirect("catalog:book_list")  # Redirect to books after logout
+>>>>>>> 6b79e7a2f6ec2f708cfa8317aca5311913fc529f

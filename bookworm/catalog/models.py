@@ -1,7 +1,6 @@
+from bookworm.settings import MEDIA_URL
 from django.db import models
 from django.utils.html import mark_safe
-
-from bookworm.settings import MEDIA_URL
 
 
 class BookDetails(models.Model):
