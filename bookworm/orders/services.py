@@ -1,7 +1,7 @@
-from django.core.exceptions import ObjectDoesNotExist
-
 from accounts.models import Customer
 from catalog.models import StockBook
+from django.core.exceptions import ObjectDoesNotExist
+
 from .models import Cart, CartItem
 
 

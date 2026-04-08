@@ -12,7 +12,6 @@ from django.shortcuts import redirect, render
 
 from ..forms import ChangePasswordForm, EditProfileForm, UserCreationForm
 
-
 User = get_user_model()
 
 
