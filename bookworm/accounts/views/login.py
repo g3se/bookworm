@@ -139,7 +139,7 @@ def order_history_view(request):
                     "-created_at"
                 )
             except Exception:
-                orders = Order.objects.filter(customer_id=request.user.pk).order_by(
-                    "-created_at"
-                )
+                orders = Order.objects.filter(
+                    customer_id=request.user.pk
+                ).order_by("-created_at")
     return render(request, "accounts/order_history.html", {"orders": orders})
