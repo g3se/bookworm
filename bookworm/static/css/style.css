@@ -18,7 +18,14 @@ body {
     border-radius: 0.5rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-
+.container_login {
+    max-width: 400px;
+    margin: auto;
+    margin-top: 50px;
+    background: #eee3cc;
+    padding: 20px;
+    border-radius: 8px;
+}
 .container {
     margin: auto;
     margin-top: 3px;
