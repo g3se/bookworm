@@ -38,7 +38,10 @@ def register_view(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)  #creates the user but doesnt save to the database yet
+            user.is_staff = False #ensures new users are not staff by default
+            user.is_superuser = False #ensures customers are not superusers
+            user.save() #creates the user and saves to the database
             Customer.objects.create(user=user)
             login(request, user)
             return redirect("catalog:book_list")

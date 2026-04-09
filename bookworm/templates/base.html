@@ -122,11 +122,11 @@
             {% else %}
 
                 <!-- Not logged in -->
-                <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">
-                    Login
-                </a>
                 <a href="{% url 'register' %}" class="btn btn-outline-success btn-sm">
                     Register
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">
+                    Login
                 </a>
 
             {% endif %}
