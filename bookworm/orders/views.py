@@ -35,7 +35,9 @@ def view_cart(request):
 def view_order_history(request):
     try:
         customer = Customer.objects.get(user=request.user)
-        orders = customer.order_set.all().order_by("-created_at")  # ← fixed from customer.orders
+        orders = customer.order_set.all().order_by(
+            "-created_at"
+        )  # ← fixed from customer.orders
     except Customer.DoesNotExist:
         orders = []
 
