@@ -23,7 +23,7 @@ def edit_profile_view(request):
         else:
             messages.error(
                 request,
-                "Failed to update profile. Please correct the errors below."
+                "Failed to update profile. Please correct the errors below.",
             )
     else:
         form = EditProfileForm(instance=request.user)
@@ -33,7 +33,7 @@ def edit_profile_view(request):
 
 @login_required
 def change_password_view(request):
-    if request.method == "POST":           # ← this check was missing before
+    if request.method == "POST":  # ← this check was missing before
         form = ChangePasswordForm(request.POST)
         if form.is_valid():
             current = form.cleaned_data["current_password"]
@@ -57,7 +57,7 @@ def change_password_view(request):
 
 
 @login_required
-def edit_address_view(request):           # ← renamed to match urls.py
+def edit_address_view(request):  # ← renamed to match urls.py
     customer, _ = Customer.objects.get_or_create(user=request.user)
 
     if request.method == "POST":
@@ -67,6 +67,10 @@ def edit_address_view(request):           # ← renamed to match urls.py
             messages.success(request, "Address updated successfully.")
             return redirect("catalog:book_list")
     else:
-        form = CustomerProfileForm(instance=customer)  # ← moved outside POST block
+        form = CustomerProfileForm(
+            instance=customer
+        )  # ← moved outside POST block
 
-    return render(request, "accounts/edit_address.html", {"form": form})  # ← moved outside POST block
+    return render(
+        request, "accounts/edit_address.html", {"form": form}
+    )  # ← moved outside POST block
