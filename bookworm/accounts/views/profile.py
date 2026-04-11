@@ -19,7 +19,6 @@ def edit_profile_view(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Profile updated successfully.")
-            return redirect("catalog:book_list")
         else:
             messages.error(
                 request,
@@ -48,6 +47,8 @@ def change_password_view(request):
                 request.user.set_password(new)
                 request.user.save()
                 update_session_auth_hash(request, request.user)
+                # FIXME for this to work properly, a `messages` handler should
+                # be present in the page template which is redirected to
                 messages.success(request, "Password changed successfully.")
                 return redirect("profile")
     else:
@@ -65,7 +66,6 @@ def edit_address_view(request):  # ← renamed to match urls.py
         if form.is_valid():
             form.save()
             messages.success(request, "Address updated successfully.")
-            return redirect("catalog:book_list")
     else:
         form = CustomerProfileForm(
             instance=customer
