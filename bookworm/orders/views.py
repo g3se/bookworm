@@ -41,4 +41,4 @@ def view_order_history(request):
     except Customer.DoesNotExist:
         orders = []
 
-    return render(request, "accounts/order_history.html", {"orders": orders})
+    return render(request, "orders/order_history.html", {"orders": orders})
