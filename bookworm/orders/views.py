@@ -11,6 +11,7 @@ from . import services
 
 TAX_RATE = Decimal("0.0825")  # 8.25% Texas sales tax
 
+
 @login_required
 def add_to_cart(request, book_id):
     try:
@@ -19,11 +20,13 @@ def add_to_cart(request, book_id):
         raise Http404()
     return redirect(request.META.get("HTTP_REFERER", "/"))
 
+
 @login_required
 def remove_from_cart(request, item_id):
     item = get_object_or_404(CartItem, id=item_id)
     item.delete()
     return redirect("view_cart")
+
 
 @login_required
 def increase_quantity(request, item_id):
@@ -48,7 +51,9 @@ def decrease_quantity(request, item_id):
 def view_cart(request):
     customer = get_object_or_404(Customer, user=request.user)
     cart, _ = Cart.objects.get_or_create(customer=customer)
-    cart_items = CartItem.objects.filter(cart=cart).select_related("book__details")
+    cart_items = CartItem.objects.filter(cart=cart).select_related(
+        "book__details"
+    )
 
     subtotal = sum(item.book.price * item.quantity for item in cart_items)
 
@@ -59,21 +64,27 @@ def view_cart(request):
     if coupon_code:
         try:
             coupon = Coupon.objects.get(code=coupon_code, is_active=True)
-            discount = subtotal * Decimal(coupon.discount_percent) / Decimal("100")
+            discount = (
+                subtotal * Decimal(coupon.discount_percent) / Decimal("100")
+            )
         except Coupon.DoesNotExist:
             request.session.pop("coupon_code", None)
 
     tax = subtotal * TAX_RATE
     total = subtotal + tax - discount
 
-    return render(request, "orders/cart.html", {
-        "cart_items": cart_items,
-        "subtotal": subtotal,
-        "tax": tax,
-        "discount": discount,
-        "total": total,
-        "coupon": coupon,
-    })
+    return render(
+        request,
+        "orders/cart.html",
+        {
+            "cart_items": cart_items,
+            "subtotal": subtotal,
+            "tax": tax,
+            "discount": discount,
+            "total": total,
+            "coupon": coupon,
+        },
+    )
 
 
 @login_required
@@ -83,7 +94,10 @@ def apply_coupon(request):
         try:
             coupon = Coupon.objects.get(code=code, is_active=True)
             request.session["coupon_code"] = coupon.code
-            messages.success(request, f"Coupon '{code}' applied! {coupon.discount_percent}% off.")
+            messages.success(
+                request,
+                f"Coupon '{code}' applied! {coupon.discount_percent}% off.",
+            )
         except Coupon.DoesNotExist:
             messages.error(request, "Invalid or inactive coupon code.")
     return redirect("view_cart")
@@ -94,14 +108,18 @@ def checkout(request):
     if request.method == "POST":
         customer = get_object_or_404(Customer, user=request.user)
         cart, _ = Cart.objects.get_or_create(customer=customer)
-        cart_items = CartItem.objects.filter(cart=cart).select_related("book__details")
+        cart_items = CartItem.objects.filter(cart=cart).select_related(
+            "book__details"
+        )
 
         if not cart_items.exists():
             messages.error(request, "Your cart is empty.")
             return redirect("view_cart")
 
         if not customer.address:
-            messages.error(request, "Please add a delivery address before checking out.")
+            messages.error(
+                request, "Please add a delivery address before checking out."
+            )
             return redirect("edit_address")
 
         subtotal = sum(item.book.price * item.quantity for item in cart_items)
@@ -112,7 +130,9 @@ def checkout(request):
         if coupon_code:
             try:
                 coupon = Coupon.objects.get(code=coupon_code, is_active=True)
-                discount = subtotal * Decimal(coupon.discount_percent) / Decimal("100")
+                discount = (
+                    subtotal * Decimal(coupon.discount_percent) / Decimal("100")
+                )
                 coupon.used_by.add(customer)
             except Coupon.DoesNotExist:
                 pass
@@ -148,7 +168,9 @@ def checkout(request):
         # GET request - show checkout page
     customer = get_object_or_404(Customer, user=request.user)
     cart, _ = Cart.objects.get_or_create(customer=customer)
-    cart_items = CartItem.objects.filter(cart=cart).select_related("book__details")
+    cart_items = CartItem.objects.filter(cart=cart).select_related(
+        "book__details"
+    )
     subtotal = sum(item.book.price * item.quantity for item in cart_items)
     discount = Decimal("0.00")
     coupon = None
@@ -156,19 +178,25 @@ def checkout(request):
     if coupon_code:
         try:
             coupon = Coupon.objects.get(code=coupon_code, is_active=True)
-            discount = subtotal * Decimal(coupon.discount_percent) / Decimal("100")
+            discount = (
+                subtotal * Decimal(coupon.discount_percent) / Decimal("100")
+            )
         except Coupon.DoesNotExist:
             pass
     tax = subtotal * TAX_RATE
     total = subtotal + tax - discount
-    return render(request, "orders/checkout.html", {
-        "cart_items": cart_items,
-        "subtotal": subtotal,
-        "tax": tax,
-        "discount": discount,
-        "total": total,
-        "coupon": coupon,
-    })
+    return render(
+        request,
+        "orders/checkout.html",
+        {
+            "cart_items": cart_items,
+            "subtotal": subtotal,
+            "tax": tax,
+            "discount": discount,
+            "total": total,
+            "coupon": coupon,
+        },
+    )
 
 
 @login_required
