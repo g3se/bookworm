@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <div class="container mt-4">
     <h1 class="mb-4">Books</h1>
 
@@ -49,6 +50,12 @@
                     <p><strong>Genre:</strong> {{ book.details.genre }}</p>
                     <p><strong>Price:</strong> ${{ book.price }}</p>
                     <p><strong>In Stock:</strong> {{ book.stock }}</p>
+
+        {% if user.is_authenticated %}
+                    <a href="{% url 'add_to_cart' book.id %}" class="btn btn-success w-100 mb-2">
+                            🛒 Add to Cart
+                    </a>
+                    {% endif %}
 
                     <a href="{% url 'catalog:book_details' book.id %}" class="btn btn-primary">
                         View Details

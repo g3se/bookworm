@@ -16,12 +16,21 @@
         <!-- Right: auth buttons -->
         <div class="d-flex align-items-center gap-3">
 
-            {% if user.is_authenticated %}
-
                 <!-- Cart icon -->
-                <a href="#" class="btn btn-outline-light btn-sm">
-                    🛒 Cart
-                </a>
+            <a href="/orders/cart/" class="btn btn-outline-light btn-sm position-relative">
+                🛒 Cart
+                {% if user.is_authenticated %}
+                    {% with cart_count=user.customer.cart.cartitem_set.count %}
+                        {% if cart_count > 0 %}
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ cart_count }}
+                            </span>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+            </a>
+
+                {% if user.is_authenticated %}
 
                 <!-- Account dropdown -->
                 <div class="dropdown">
