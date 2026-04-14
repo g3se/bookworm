@@ -15,7 +15,7 @@
 
   <main class="login-content">
     <div class="container mt-1 login-card">
-      <h2 class="text-center mb-2 pb-3">Login to Bookworm!</h2>
+      <h2 class="text-center mb-2 pb-3">Log in to Bookworm!</h2>
 
       {% if messages %}
         {% for message in messages %}
@@ -33,7 +33,7 @@
           <label for="{{ form.password.id_for_label }}">Password:</label>
           {{ form.password }}
         </div>
-        <button type="submit" class="btn btn-primary mt-3 login-Button">Login</button>
+        <button type="submit" class="btn btn-primary mt-3 login-Button">Log In</button>
       </form>
       <p class="text-center mt-4 p-1">Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
     </div>
