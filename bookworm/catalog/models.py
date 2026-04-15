@@ -1,20 +1,7 @@
+from bookworm.settings import MEDIA_URL
 from django.db import models
 from django.utils.html import mark_safe
 
-from bookworm.settings import MEDIA_URL
-
-GENRE_CHOICES = [
-    ("fiction", "Fiction"),
-    ("history", "History"),
-    ("sci-fi", "Sci-Fi"),
-    ("biography", "Biography"),
-    ("romance", "Romance"),
-    ("fantasy", "Fantasy"),
-    ("mystery", "Mystery"),
-    ("thriller", "Thriller"),
-    ("non-fiction", "Non-Fiction"),
-    ("dystopian", "Dystopian"),
-]
 
 class BookDetails(models.Model):
     """Book details, independent of stock.
@@ -25,7 +12,7 @@ class BookDetails(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     description = models.CharField(max_length=2047)
-    genre = models.CharField(max_length=127, choices=GENRE_CHOICES)
+    genre = models.CharField(max_length=127)
     cover_img = models.ImageField(
         upload_to="book_covers/", blank=True, null=True
     )

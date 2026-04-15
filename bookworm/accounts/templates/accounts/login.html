@@ -1,21 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
-<head><title>Login - Bookworm</title></head>
-<body>
-  <h2>Login</h2>
+<head>
+    <title>Login - Bookworm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+</head>
+<body class="login-page">
+  <nav class="navbar bookworm-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="/books/">🐞📚🐛 Bookworm Catalog</a>
+    </div>
+  </nav>
 
-  {% if messages %}
-    {% for message in messages %}
-      <p style="color:red;">{{ message }}</p>
-    {% endfor %}
-  {% endif %}
+  <main class="login-content">
+    <div class="container mt-1 login-card">
+      <h2 class="text-center mb-2 pb-3">Log in to Bookworm!</h2>
 
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
-
-  <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+      {% if messages %}
+        {% for message in messages %}
+          <p style="color:red;">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+      
+      <form method="POST">
+        {% csrf_token %}
+        <div class="login-field">
+          <label for="{{ form.username.id_for_label }}">Username:</label>
+          {{ form.username }}
+        </div>
+        <div class="login-field">
+          <label for="{{ form.password.id_for_label }}">Password:</label>
+          {{ form.password }}
+        </div>
+        <button type="submit" class="btn btn-primary mt-3 login-Button">Log In</button>
+      </form>
+      <p class="text-center mt-4 p-1">Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    </div>
+  </main>
 </body>
 </html>

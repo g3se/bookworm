@@ -1,29 +1,28 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, update_session_auth_hash
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from ..forms import EditProfileForm, ChangePasswordForm, UserCreationForm
-
+from accounts.models import Customer
+from accounts.forms import UserCreationForm
+from django.contrib.auth import (
+    get_user_model,
+    login,
+    logout,
+)
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import redirect, render
 
 User = get_user_model()
 
 
-# Create your views here.
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect("book_list")  # Redirect to books if already logged in
+        return redirect("catalog:book_list")
 
     if request.method == "POST":
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect(
-                "book_list"
-            )  # Redirect to books after successful login
+            return redirect("catalog:book_list")
         else:
             messages.error(request, "Invalid username or password.")
     else:
@@ -34,14 +33,23 @@ def login_view(request):
 
 def register_view(request):
     if request.user.is_authenticated:
-        return redirect("book_list")  # Redirect to books if already logged in
+        return redirect("catalog:book_list")
 
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)  # log then user in after registration
-            return redirect("book_list")
+            user = form.save(commit=False)  # creates the user but doesnt save to the database yet
+            user.is_staff = False  # ensures new users are not staff by default
+            user.is_superuser = False  # ensures customers are not superusers
+            user.first_name = form.cleaned_data["first_name"]
+            user.last_name = form.cleaned_data["last_name"]
+            user.email = form.cleaned_data["email"]
+
+        
+            user.save()  # creates the user and saves to the database
+            Customer.objects.create(user=user)
+            login(request, user)
+            return redirect("catalog:book_list") 
         else:
             messages.error(
                 request, "Registration failed. Please correct the errors below."
@@ -54,55 +62,4 @@ def register_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect("book_list")  # Redirect to books after logout
-
-
-# FIXME profile HTMLs and URLs are missing
-@login_required
-def profile_view(request):
-    return render(request, "accounts/profile.html", {"user": request.user})
-
-
-@login_required
-def edit_profile_view(request):
-    if request.method == "POST":
-        form = EditProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Profile updated successfully.")
-            return redirect("profile")
-        else:
-            messages.error(
-                request,
-                "Failed to update profile. Please correct the errors below.",
-            )
-    else:
-        form = EditProfileForm(instance=request.user)
-
-    return render(request, "accounts/edit_profile.html", {"form": form})
-
-
-@login_required
-def change_password_view(request):
-    form = ChangePasswordForm(request.POST)
-    if form.is_valid():
-        current = form.cleaned_data["current_password"]
-        new = form.cleaned_data["new_password"]
-        confirm = form.cleaned_data["confirm_password"]
-
-        if not request.user.check_password(current):
-            messages.error(request, "Current password is incorrect.")
-        elif new != confirm:
-            messages.error(request, "New passwords do not match.")
-        else:
-            request.user.set_password(new)
-            request.user.save()
-            update_session_auth_hash(
-                request, request.user
-            )  # Keep the user logged in after password change
-            messages.success(request, "Password changed successfully.")
-            return redirect("profile")
-    else:
-        form = ChangePasswordForm()
-
-    return render(request, "accounts/change_password.html", {"form": form})
+    return redirect("catalog:book_list")

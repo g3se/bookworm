@@ -1,0 +1,48 @@
+/* Main stylesheet */
+:root {
+    --bookworm-navbar: #c2b280;
+    --bookworm-button: #c57644;
+    --bookworm-button-hover: #744426;
+    --bookworm-background: #f6eadd;
+    --bookworm-background-secondary: #fff8e7;
+    --bookworm-text: #c57644;
+}
+body {
+    background-color: #eeeac9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.bookworm-navbar {
+    background-color: var(--bookworm-navbar);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.dropdown-menu {
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.container_login {
+    max-width: 400px;
+    margin: auto;
+    margin-top: 50px;
+    background: #eee3cc;
+    padding: 20px;
+    border-radius: 8px;
+}
+.container {
+    margin: auto;
+    margin-top: 3px;
+    padding: 5px;
+    border-radius: 8px;
+}
+main {
+    padding: 2rem 0;
+}
+

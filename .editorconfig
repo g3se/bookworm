@@ -1,0 +1,13 @@
+# Normalize line endings to LF
+# Also require final newline at end of file
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+
+# Normalize line endings of Windows files to CRLF
+[*.bat]
+end_of_line = crlf
+
+[*.cmd]
+end_of_line = crlf
