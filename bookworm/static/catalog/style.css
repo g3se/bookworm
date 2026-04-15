@@ -1,6 +1,6 @@
 /* Catalog page styles */
 :root {
-    --bookworm-navbar: #c2b280;
+    --bookworm-navbar: #F9CCB7;
     --bookworm-button: #c57644;
     --bookworm-button-hover: #744426;
     --bookworm-background: #f6eadd;
@@ -68,6 +68,20 @@
 .bookworm-navbar {
     background-color: var(--bookworm-navbar);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.bookworm-button {
+    width: 25%;
+    border-radius: 25px;
+    box-shadow: #333 0px 2px 4px;
+    background-color: var(--bookworm-button);
+    border: 1px solid var(--bookworm-button);
+    color: var(--bookworm-background);
+
+}
+
+.bookworm-button:hover {
+    background-color: var(--bookworm-button-hover);
+    border-color: var(--bookworm-button-hover);
 }
 body {
     background-color: var(--bookworm-background);

@@ -1,7 +1,6 @@
 /* Accounts page styles */
 :root {
-    --bookworm-navbar: #c2b280;
-    --bookworm-navbar-test-green: #9E7462;
+    --bookworm-navbar: #F9CCB7;
     --bookworm-button: #c57644;
     --bookworm-button-hover: #744426;
     --bookworm-background: #f6eadd;
@@ -112,7 +111,7 @@
     margin-bottom: 6px;
 }
 .bookworm-navbar {
-    background-color: var(--bookworm-navbar-test-green);
+    background-color: var(--bookworm-navbar);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     filter: drop-shadow(0px 1px 5px var(--bookworm-button-hover));
 }
