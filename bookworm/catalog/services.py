@@ -1,6 +1,15 @@
+import re
+
 from django.db.models import Q
 
 from .models import StockBook
+
+
+ARTICLE_RE = re.compile(r"^(a|an|the)\s+", re.IGNORECASE)
+
+
+def normalize_title_for_sort(title):
+    return ARTICLE_RE.sub("", title).strip().lower()
 
 
 def filter_and_sort_books(query, sort):
@@ -21,7 +30,16 @@ def filter_and_sort_books(query, sort):
         books = books.order_by("stock")
     elif sort == "stock_desc":
         books = books.order_by("-stock")
+    elif sort == "title_desc":
+        books = sorted(
+            books,
+            key=lambda book: normalize_title_for_sort(book.details.title),
+            reverse=True,
+        )
     else:
-        books = books.order_by("details__title")
+        books = sorted(
+            books,
+            key=lambda book: normalize_title_for_sort(book.details.title),
+        )
 
     return books
