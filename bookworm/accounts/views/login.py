@@ -44,8 +44,10 @@ def register_view(request):
             user.first_name = form.cleaned_data["first_name"]
             user.last_name = form.cleaned_data["last_name"]
             user.email = form.cleaned_data["email"]
+
+        
             user.save()  # creates the user and saves to the database
-            Customer.objects.create(user=user, address=form.cleaned_data.get("address", ""))
+            Customer.objects.create(user=user)
             login(request, user)
             return redirect("catalog:book_list") 
         else:

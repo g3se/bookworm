@@ -55,7 +55,7 @@
 
           <!-- Address -->
           <div class="login-field">
-            <label for="{{ form.address.id_for_label }}">Address (optional):</label>
+            <label for="{{ form.address.id_for_label }}">Address:</label>
             {{ form.address }}
           </div>
           {% if form.address.errors %}
@@ -65,7 +65,7 @@
            <hr class="my-3">
 
         <div class="login-field">
-          <label for="{{ form.username.id_for_label }}">Username:</label>
+          <label for="{{ form.username.id_for_label }}">*Username:</label>
           {{ form.username }}
         </div>
         {% if form.username.errors %}
@@ -73,7 +73,7 @@
         {% endif %}
 
         <div class="login-field">
-          <label for="{{ form.password1.id_for_label }}">Password:</label>
+          <label for="{{ form.password1.id_for_label }}">*Password:</label>
           {{ form.password1 }}
         </div>
         {% if form.password1.errors %}
@@ -81,7 +81,7 @@
         {% endif %}
 
         <div class="login-field">
-          <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+          <label for="{{ form.password2.id_for_label }}">*Confirm Password:</label>
           {{ form.password2 }}
         </div>
         {% if form.password2.errors %}
@@ -90,6 +90,8 @@
 
         <button type="submit" class="btn btn-primary mt-3 login-Button">Register</button>
       </form>
+
+      <p class="text-center mt-3">Fields marked with * are required.</p>
 
       <p class="text-center mt-4 p-1">Already have an account? <a href="{% url 'login' %}">Log in here</a></p>
     </div>

@@ -21,9 +21,9 @@ class ChangePasswordForm(forms.Form):
 
 class UserCreationForm(DjangoUserCreationForm):
     
-    first_name = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'First Name'}))
-    last_name = forms.CharField(max_length=50, required=True, widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Last Name'}))
-    email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={'class': 'form-control','placeholder': 'abc123@gmail.com'}))
+    first_name = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'First Name'}))
+    last_name = forms.CharField(max_length=50, required=False, widget=forms.TextInput(attrs={'class': 'form-control','placeholder': 'Last Name'}))
+    email = forms.EmailField(required=False, widget=forms.EmailInput(attrs={'class': 'form-control','placeholder': 'abc123@gmail.com'}))
     address = forms.CharField(max_length=255, required=False, widget=forms.TextInput(attrs={'class': 'form-control','placeholder': '123 Main St, City, State, ZIP'}))
     
     class Meta:
