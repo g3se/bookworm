@@ -1,6 +1,12 @@
+import re
+from functools import cached_property
+
 from bookworm.settings import MEDIA_URL
 from django.db import models
 from django.utils.html import mark_safe
+
+
+ARTICLE_RE = re.compile(r"^(a|an|the)\s+", re.IGNORECASE)
 
 
 class BookDetails(models.Model):
@@ -29,6 +35,10 @@ class BookDetails(models.Model):
     @property
     def description_html(self):
         return mark_safe(self.description)
+
+    @cached_property
+    def title_sortkey(self):
+        return ARTICLE_RE.sub("", self.title).strip().lower()
 
     class Meta:
         verbose_name = "Book details"
