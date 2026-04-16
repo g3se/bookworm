@@ -74,3 +74,39 @@ python manage.py runserver
 ```
 
 Connect to <http://localhost:8000/> in your web browser to view the website.
+
+
+# Run with Gunicorn
+
+Gunicorn website: <https://gunicorn.org/>.
+
+Gunicorn is a web server that lets us run the Django website through WSGI.
+
+## Set up Gunicorn
+
+Activate the virtual environment (if you haven't)
+```sh
+poetry shell
+```
+
+`cd` into the `bookworm` directory that contains `manage.py`.
+
+Collect the static files into directory `staticfiles`
+```sh
+python manage.py collectstatic
+```
+**NOTE:** You may need to re-run this command if the static files update.
+
+## Run Gunicorn
+
+Activate the virtual environment (if you haven't)
+```sh
+poetry shell
+```
+
+`cd` into the `bookworm` directory that contains `manage.py`.
+
+Reload Gunicorn and run through WSGI.
+```sh
+gunicorn bookworm.wsgi:application --reload
+```
