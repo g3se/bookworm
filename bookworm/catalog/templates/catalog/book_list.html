@@ -39,7 +39,7 @@
         {% for book in books %}
             <div class="col-md-4">
                 <div class="card mb-3 p-3 book-card">
-                    <div class="book-cover-img mb-2 p-3">
+                    <div class="card book-cover-img mb-2 p-3">
                         <a href="{% url 'catalog:book_details' book.id %}">
                         <img
                             src="{{ book.details.cover_url }}"

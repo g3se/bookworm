@@ -49,10 +49,10 @@
 .book-cover-img {
     width: 200px;
     height: 300px;
-    object-fit: cover;
-    object-position: center;
     align-content: center;
     align-self: center;
+    background-color: transparent;
+    border: transparent;
 }
 
 .book-cover-img-lg {
