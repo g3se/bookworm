@@ -44,6 +44,7 @@
                         alt="{{ book.details.title }}"
                         class="img-fluid mb-2"
                         style="height: 200px; object-fit: contain"
+                        href="{% url 'catalog:book_details' book.id %}"
                     >
                     <h5>{{ book.details.title }}</h5>
                     <p><strong>Author:</strong> {{ book.details.author }}</p>
