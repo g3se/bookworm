@@ -14,21 +14,28 @@ def profile_view(request):
 
 @login_required
 def edit_profile_view(request):
+    customer, _ = Customer.objects.get_or_create(user=request.user)
+    
     if request.method == "POST":
-        form = EditProfileForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
+        user_form = EditProfileForm(request.POST, instance=request.user)
+        address_form = CustomerProfileForm(request.POST, instance=customer)
+        
+        if user_form.is_valid() and address_form.is_valid():
+            user_form.save()
+            address_form.save()
             messages.success(request, "Profile updated successfully.")
+            return redirect("catalog:book_list")
         else:
-            messages.error(
-                request,
-                "Failed to update profile. Please correct the errors below.",
-            )
+             messages.error(request, "Failed to update profile. Please correct the errors below.")
     else:
-        form = EditProfileForm(instance=request.user)
-
-    return render(request, "accounts/edit_profile.html", {"form": form})
-
+        user_form = EditProfileForm(instance=request.user)
+        address_form = CustomerProfileForm(instance=customer)
+    
+    return render(request, "accounts/edit_profile.html", {
+        "user_form": user_form,
+        "address_form": address_form,
+    })    
+    
 
 @login_required
 def change_password_view(request):
@@ -72,5 +79,5 @@ def edit_address_view(request):  # ← renamed to match urls.py
         )  # ← moved outside POST block
 
     return render(
-        request, "accounts/edit_address.html", {"form": form}
+        request, "accounts/edit_profile.html", {"form": form}
     )  # ← moved outside POST block
