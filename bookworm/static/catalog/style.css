@@ -40,8 +40,28 @@
 
 .book-cover {
     width: 100%;
-    height: fit-content;
+    height: 100%;
+    align-content: center;
+    object-fit:  inherit;
+}
+
+/* Uniform book cover images */
+.book-cover-img {
+    width: 200px;
+    height: 300px;
     object-fit: cover;
+    object-position: center;
+    align-content: center;
+    align-self: center;
+}
+
+.book-cover-img-lg {
+    width: 300px;
+    height: 450px;
+    object-fit: cover;
+    object-position: center;
+    align-content: center;
+    align-self: center;
 }
 
 .book-card-content {
