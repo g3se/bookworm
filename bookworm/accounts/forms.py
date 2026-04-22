@@ -14,9 +14,9 @@ class EditProfileForm(forms.ModelForm):
 
 
 class ChangePasswordForm(forms.Form):
-    current_password = forms.CharField(widget=forms.PasswordInput)
-    new_password = forms.CharField(widget=forms.PasswordInput)
-    confirm_password = forms.CharField(widget=forms.PasswordInput)
+    current_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'forms-control', 'placeholder': 'Current Password'}))
+    new_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'forms-control', 'placeholder': 'New Password'}))
+    confirm_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'forms-control', 'placeholder': 'Confirm New Password'}))
 
 
 class UserCreationForm(DjangoUserCreationForm):

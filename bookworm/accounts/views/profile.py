@@ -57,7 +57,7 @@ def change_password_view(request):
                 # FIXME for this to work properly, a `messages` handler should
                 # be present in the page template which is redirected to
                 messages.success(request, "Password changed successfully.")
-                return redirect("profile")
+                return redirect("catalog:book_list")
     else:
         form = ChangePasswordForm()
 
