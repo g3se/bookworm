@@ -24,7 +24,7 @@ def edit_profile_view(request):
             user_form.save()
             address_form.save()
             messages.success(request, "Profile updated successfully.")
-            return redirect("catalog:book_list")
+            # return redirect("catalog:book_list")
         else:
              messages.error(request, "Failed to update profile. Please correct the errors below.")
     else:
@@ -34,6 +34,7 @@ def edit_profile_view(request):
     return render(request, "accounts/edit_profile.html", {
         "user_form": user_form,
         "address_form": address_form,
+        "customer": customer,
     })    
     
 

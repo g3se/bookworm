@@ -74,11 +74,6 @@
                                     {% endif %}
                                 </p>
                             </li>
-                            <li>
-                                <a href="{% url 'edit_profile' %}" class="btn btn-outline-secondary btn-sm mt-1 w-100">
-                                    ✏️ Edit Profile
-                                </a>
-                            </li>
 
                             <li><hr class="dropdown-divider"></li>
 
@@ -92,12 +87,13 @@
                                         No address on file
                                     {% endif %}
                                 </p>
-                                <a href="{% url 'edit_address' %}"
-                                   class="btn btn-outline-secondary btn-sm mt-1 w-100">
-                                    ✏️ Edit Address
+                            </li>
+                            <li>
+                                <a href="{% url 'edit_profile' %}" class="btn btn-outline-secondary btn-sm mt-1 w-100">
+                                    ✏️ Edit Profile
                                 </a>
                             </li>
-
+                            
                             <li><hr class="dropdown-divider"></li>
 
                             <!-- Orders -->
