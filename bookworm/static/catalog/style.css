@@ -108,8 +108,8 @@ body {
     background-color: var(--bookworm-background);
     color: var(--bookworm-text);
 }
-.bookworm-footer{
-    background-color: red !important;
+footer{
+    background-color: var(--bookworm-footer);
     color: var(--bookworm-text);
     box-shadow: #333 0px 2px 4px;
 }
