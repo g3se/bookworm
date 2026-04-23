@@ -6,6 +6,7 @@
     --bookworm-background: #f6eadd;
     --bookworm-background-secondary: #fff8e7;
     --bookworm-text: #c57644;
+    --bookworm-footer: #F1D3B2;
 }
 .book-grid {
     display: grid;
@@ -106,4 +107,9 @@
 body {
     background-color: var(--bookworm-background);
     color: var(--bookworm-text);
+}
+.bookworm-footer{
+    background-color: red !important;
+    color: var(--bookworm-text);
+    box-shadow: #333 0px 2px 4px;
 }
