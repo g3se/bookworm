@@ -154,8 +154,33 @@
 </nav>
 
 <div class="container mt-4 book-details-layout">
-    {% for message in messages %}
-        <div class="alert
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% comment %} {%if messages %}
+        {% for message in messages %}
+        <p>
+        {{ mesage.tag}}
+        </p>
+        {%if 'successfully' in message.tags %}
+        <div class="alert alert-success">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% else %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endif %}
+        {% endfor %}
+    {% endif %} {% endcomment %}
+        {% comment %} <div class="alert
             {% if 'successfully' in message.tags %}
                 alert-success
             {% else %}
@@ -165,7 +190,7 @@
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-    {% endfor %}
+    {% endfor %} {% endcomment %}
 
 
     {% block content %}
