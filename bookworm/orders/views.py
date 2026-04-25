@@ -1,13 +1,14 @@
 from decimal import Decimal
+
 from accounts.models import Customer
+from coupons.models import Coupon
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib import messages
-from .models import Cart, CartItem, Order, OrderItem
-from catalog.models import StockBook
-from coupons.models import Coupon
+
 from . import services
+from .models import Cart, CartItem, Order, OrderItem
 
 TAX_RATE = Decimal("0.0825")  # 8.25% Texas sales tax
 

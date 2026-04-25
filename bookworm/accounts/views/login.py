@@ -1,7 +1,4 @@
 from django.contrib import messages
-
-from accounts.models import Customer
-from accounts.forms import UserCreationForm
 from django.contrib.auth import (
     get_user_model,
     login,
@@ -9,6 +6,9 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
+
+from accounts.forms import UserCreationForm
+from accounts.models import Customer
 
 User = get_user_model()
 
@@ -38,18 +38,19 @@ def register_view(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)  # creates the user but doesnt save to the database yet
+            user = form.save(
+                commit=False
+            )  # creates the user but doesnt save to the database yet
             user.is_staff = False  # ensures new users are not staff by default
             user.is_superuser = False  # ensures customers are not superusers
             user.first_name = form.cleaned_data["first_name"]
             user.last_name = form.cleaned_data["last_name"]
             user.email = form.cleaned_data["email"]
 
-        
             user.save()  # creates the user and saves to the database
             Customer.objects.create(user=user)
             login(request, user)
-            return redirect("catalog:book_list") 
+            return redirect("catalog:book_list")
         else:
             messages.error(
                 request, "Registration failed. Please correct the errors below."
