@@ -18,7 +18,9 @@ def add_to_cart(request, book_id):
         services.add_book_to_cart(request.user, book_id)
     except services.NotFoundError:
         raise Http404()
-    return redirect(request.META.get("HTTP_REFERER", "/"))
+    # There are two places where the Add to Cart button is available,
+    # and this redirect makes sense for both.
+    return redirect("catalog:book_list")
 
 
 @login_required

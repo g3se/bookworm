@@ -17,7 +17,12 @@
 <p class="card-text"><strong>Stock:</strong> {{ book.stock }}</p>
 <p class="card-text"><strong>Description:</strong> {{ book.details.description_html }}</p>
 
-<a href="/books/" class="btn btn-secondary accordion">Back</a>
+{% if user.is_authenticated %}
+    <a href="{% url 'add_to_cart' book.id %}" class="btn btn-success w-100 mb-2">
+             Add to Cart
+    </a>
+{% endif %}
+<a href="/books/" class="btn btn-secondary w-100 mb-2">Back</a>
 </div>
 </div>
 {% endblock %}
