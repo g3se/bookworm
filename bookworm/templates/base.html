@@ -68,7 +68,7 @@
                                 <small class="text-muted">Full Name</small>
                                 <p class="mb-0 fw-semibold">
                                     {% if user.first_name or user.last_name %}
-                                        {{ user.first_name }} {{ user.last_name }}
+                                        {{ user.full_name }}
                                     {% else %}
                                         Not set
                                     {% endif %}
