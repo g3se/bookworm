@@ -8,6 +8,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
 from . import services
+from .forms import CheckoutForm
 from .models import Cart, CartItem, Order, OrderItem
 
 TAX_RATE = Decimal("0.0825")  # 8.25% Texas sales tax
@@ -108,22 +109,24 @@ def apply_coupon(request):
 
 @login_required
 def checkout(request):
-    if request.method == "POST":
-        customer = get_object_or_404(Customer, user=request.user)
-        cart, _ = Cart.objects.get_or_create(customer=customer)
-        cart_items = CartItem.objects.filter(cart=cart).select_related(
-            "book__details"
-        )
+    customer = get_object_or_404(Customer, user=request.user)
+    cart, _ = Cart.objects.get_or_create(customer=customer)
+    cart_items = CartItem.objects.filter(cart=cart).select_related(
+        "book__details"
+    )
+    checkout_form = None
 
-        if not cart_items.exists():
-            messages.error(request, "Your cart is empty.")
-            return redirect("view_cart")
+    if not cart_items.exists():
+        messages.error(request, "Your cart is empty.")
+        return redirect("view_cart")
 
-        if not customer.address:
-            messages.error(
-                request, "Please add a delivery address before checking out."
-            )
-            return redirect("edit_address")
+    # while loop allows for breaking. behaves as if with breaking.
+    # it should only execute once: there should be no looping.
+    while request.method == "POST":
+        checkout_form = CheckoutForm(request.POST)
+
+        if not checkout_form.is_valid():
+            break
 
         subtotal = sum(item.book.price * item.quantity for item in cart_items)
 
@@ -147,7 +150,8 @@ def checkout(request):
         order = Order.objects.create(
             customer=customer,
             total_price=total,
-            customer_address=customer.address,
+            customer_address=checkout_form.cleaned_data["address"],
+            full_name=checkout_form.cleaned_data["full_name"],
         )
 
         # Create order items and reduce stock
@@ -168,12 +172,7 @@ def checkout(request):
         messages.success(request, f"Order #{order.id} placed successfully!")
         return redirect("order_history")
 
-        # GET request - show checkout page
-    customer = get_object_or_404(Customer, user=request.user)
-    cart, _ = Cart.objects.get_or_create(customer=customer)
-    cart_items = CartItem.objects.filter(cart=cart).select_related(
-        "book__details"
-    )
+    # GET request - show checkout page
     subtotal = sum(item.book.price * item.quantity for item in cart_items)
     discount = Decimal("0.00")
     coupon = None
@@ -188,6 +187,15 @@ def checkout(request):
             pass
     tax = subtotal * TAX_RATE
     total = subtotal + tax - discount
+
+    if checkout_form is None:
+        checkout_form = CheckoutForm(
+            initial={
+                "full_name": request.user.full_name,
+                "address": request.user.customer.address,
+            }
+        )
+
     return render(
         request,
         "orders/checkout.html",
@@ -198,6 +206,7 @@ def checkout(request):
             "discount": discount,
             "total": total,
             "coupon": coupon,
+            "checkout_form": checkout_form,
         },
     )
 

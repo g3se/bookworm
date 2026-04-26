@@ -4,7 +4,15 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    @property
+    def full_name(self):
+        return " ".join(
+            [
+                name
+                for name in [self.first_name, self.last_name]
+                if name.strip() != ""
+            ]
+        )
 
 
 class Customer(models.Model):

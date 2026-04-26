@@ -40,6 +40,7 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=8, decimal_places=2)
     is_fulfilled = models.BooleanField(default=False)
     customer_address = models.CharField(max_length=511)
+    full_name = models.CharField(max_length=255)
 
     def __str__(self):
         customer_str = (
