@@ -54,7 +54,7 @@
                         {% with cart_count=user.customer.cart.cartitem_set.count %}
                             {% if cart_count > 0 %}
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ cart_count }}
+                                    {{ cart_item_count }}
                                 </span>
                             {% endif %}
                         {% endwith %}
