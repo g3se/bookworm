@@ -16,6 +16,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "customer",
+        "full_name",
         "total_price",
         "is_fulfilled",
         "created_at",
