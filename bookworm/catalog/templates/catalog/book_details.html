@@ -3,7 +3,7 @@
 {% block content %}
 <!-- Book Details Template -->
  <div class="card mt-4 mb-4 p-4 book-card">
-<h1>{{ book.title }}</h1>
+<h1>{{ book.details.title }}</h1>
 <img
     src="{{ book.details.cover_url }}"
     alt="{{ book.details.title }}"
@@ -12,7 +12,19 @@
 <div class="card-body mt-3">
 <p class="card-text"><strong>Title:</strong> {{ book.details.title }}</p>
 <p class="card-text"><strong>Author:</strong> {{ book.details.author }}</p>
-<p class="card-text"><strong>Price:</strong> ${{ book.price }}</p>
+<p class="card-text">
+    <strong>Price:</strong>
+    {% if book.is_discounted %}
+        <span class="text-danger">${{ book.price }}</span>
+        <span class="text-muted text-decoration-line-through">${{ book.original_price }}</span>
+        <span class="badge bg-danger">{{ book.discount_percent }}% off</span>
+    {% else %}
+        ${{ book.price }}
+    {% endif %}
+</p>
+{% if book.is_discounted %}
+    <p class="card-text text-success"><strong>You save:</strong> ${{ book.discount_amount }} ({{ book.discount_percent }}%)</p>
+{% endif %}
 <p class="card-text"><strong>Genre:</strong> {{ book.details.genre }}</p>
 <p class="card-text"><strong>Stock:</strong> {{ book.stock }}</p>
 <p class="card-text"><strong>Description:</strong> {{ book.details.description_html }}</p>

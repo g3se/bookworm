@@ -51,7 +51,16 @@
                     <h5>{{ book.details.title }}</h5>
                     <p><strong>Author:</strong> {{ book.details.author }}</p>
                     <p><strong>Genre:</strong> {{ book.details.genre }}</p>
-                    <p><strong>Price:</strong> ${{ book.price }}</p>
+                    <p>
+                        <strong>Price:</strong>
+                        {% if book.is_discounted %}
+                            <span class="text-danger">${{ book.price }}</span>
+                            <span class="text-muted text-decoration-line-through">${{ book.original_price }}</span>
+                            <span class="badge bg-danger">{{ book.discount_percent }}% off</span>
+                        {% else %}
+                            ${{ book.price }}
+                        {% endif %}
+                    </p>
                     <p><strong>In Stock:</strong> {{ book.stock }}</p>
 
         {% if user.is_authenticated %}
