@@ -1,6 +1,7 @@
 # bookworm
 bookstore website for CS 3773-002, Spring 2026
 
+
 # Setup guide
 
 ## Install Python
@@ -36,10 +37,11 @@ pipx inject poetry poetry-plugin-shell
 
 Clone <https://github.com/g3se/bookworm>.
 
-I recommend to clone the repository through SSH to authenticate with GitHub, using a URL similar to: `ssh://git@github.com/g3se/bookworm.git`.
+I recommend to clone the repository through SSH to authenticate with GitHub,
+using a URL similar to: `ssh://git@github.com/g3se/bookworm.git`.
 
-There are alternative ways to clone that let you avoid needing to interact with SSH
-directly:
+There are alternative ways to clone that let you avoid needing to interact with
+SSH directly:
 - VS Code (built-in GitHub integration):
   <https://code.visualstudio.com/download>
 - GitHub Desktop: <https://github.com/apps/desktop>
@@ -110,3 +112,25 @@ Reload Gunicorn and run through WSGI.
 ```sh
 gunicorn bookworm.wsgi:application --reload
 ```
+
+
+# Copyright Disclaimer
+
+The bookworm contributors license bookworm under the `CC0-1.0` license as
+designated by SPDX and place it into the public domain in all applicable
+jurisdictions (see `LICENSE` file or <https://spdx.org/licenses/CC0-1.0.html>).
+The copyrights of other works contained within this repository, i.e. those of
+the cover art and details of books located within the `bookworm/media` directory
+and `bookworm/db.sqlite3` database, respectively, are held by their respective
+copyright holders.
+These other works are not all released under similar terms into the public
+domain.
+The bookworm contributors do not necessarily claim copyright to these other
+works and use them for educational purposes only.
+
+Under section 107 of the Copyright Act of 1976, allowance is made for "fair use"
+for purposes such as criticism, comment, news reporting, teaching, scholarship,
+education, and research.
+Fair use is a use permitted by U.S. copyright statute that might otherwise be
+infringing.
+Non-profit, educational, or personal use tips the balance in favor of fair use.
